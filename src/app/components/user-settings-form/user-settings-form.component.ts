@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { IUserSettings } from 'src/app/Interfaces/IUserSettings';
+import { NgForm } from '@angular/forms';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-user-settings-form',
@@ -7,9 +10,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UserSettingsFormComponent implements OnInit {
 
-  constructor() { }
+  userSetting: IUserSettings = {
+    name: null,
+    emailOffers: null,
+    interfaceStyle: null,
+    subscriptionType: null,
+    notes: null
+  }
+
+  constructor(private data: DataService) { }
 
   ngOnInit() {
+  }
+  
+  //https://putsreq.com
+  onSubmit(form: NgForm): void {
+    console.log(form.valid);
+    this.data.postUserSettingsForm(this.userSetting).subscribe(
+      result => console.log('success: ' , result),
+      error => console.log('Error ', error)
+    );
   }
 
 }
